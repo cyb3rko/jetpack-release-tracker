@@ -24,8 +24,6 @@ android {
             useSupportLibrary = true
         }
 
-        multiDexEnabled = true
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -58,8 +56,6 @@ android {
 
 
     compileOptions {
-        // Flag to enable support for the new language APIs
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -111,9 +107,6 @@ dependencies {
     // WorkManager
     val workVersion = "2.9.1"
     implementation("androidx.work:work-runtime-ktx:$workVersion")
-
-    // https://developer.android.com/studio/write/java8-support?utm_source=android-studio-4-0&utm_medium=studio-assistant-stable#library-desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
 
     // other 3rd party libs
     implementation("com.jakewharton.timber:timber:4.7.1")

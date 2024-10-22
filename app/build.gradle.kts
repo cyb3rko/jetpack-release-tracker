@@ -127,10 +127,6 @@ android {
 }
 
 dependencies {
-    val fTree = fileTree("lib")
-    fTree.include("*.jar")
-
-    implementation(fTree)
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
 

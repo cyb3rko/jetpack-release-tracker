@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import androidx.work.*
-import name.lmj0011.jetpackreleasetracker.helpers.NotificationHelper
 import name.lmj0011.jetpackreleasetracker.helpers.workers.LibraryRefreshWorker
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -13,7 +12,6 @@ class Application: android.app.Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        NotificationHelper.init(this)
         applyTheme()
         enqueueWorkers()
     }

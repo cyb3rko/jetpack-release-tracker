@@ -2,7 +2,6 @@
     <string name="app_name">Jetpack Release Tracker</string>
     <string name="title_libraries">Libraries</string>
     <string name="title_updates">Updates</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_project_syncs">Project Sync</string>
     <string name="title_create_project_sync">Add Project</string>
     <string name="title_edit_project_sync">Edit Project</string>
@@ -17,7 +16,6 @@
     <string name="project_syncs_learn_more_url">https://github.com/lmj0011/jetpack-release-tracker/wiki/Project-Sync-Feature</string>
     <string name="stable_versions_only_switch_text">track stable versions only</string>
     <string name="jetpack_release_archive_url">https://developer.android.com/jetpack/androidx/versions/all-channel</string>
-    <string name="debug_notification_content_title">[debug message]</string>
 
     <string name="project_sync_all_up_to_date">All androidx dependencies are up to date</string>
     <string name="project_sync_outdated_singular">Newer version found for 1 androidx dependency</string>
@@ -27,14 +25,6 @@
     <string name="toast_message_updating_libraries">Updating Libraries</string>
     <string name="toast_message_fetching_libraries">Fetching Libraries</string>
     <string name="toast_message_syncing_projects">Syncing Projects</string>
-
-    <string name="notification_text_fetching_artifacts">fetching Artifacts...</string>
-    <string name="notification_text_checking_for_newer_lib_versions">Checking for new library versions</string>
-    <string name="notification_text_new_versions_available">New Versions Available!</string>
-    <string name="notification_text_syncing_all_projects">Syncing all Projects</string>
-
-
-    <string name="notification_action_button_cancel">Cancel</string>
 
     <!-- Shared Preference Keys-->
     <string name="pref_key_starred_libraries">PREF_STARRED_LIBRARIES</string>

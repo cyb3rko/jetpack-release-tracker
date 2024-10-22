@@ -31,11 +31,6 @@
             app:destination="@id/editProjectSyncFragment" />
     </fragment>
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="name.lmj0011.jetpackreleasetracker.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
-    <fragment
         android:id="@+id/createProjectSyncFragment"
         android:name="name.lmj0011.jetpackreleasetracker.ui.projectsyncs.CreateProjectSyncFragment"
         android:label="@string/title_create_project_sync" />

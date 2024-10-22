@@ -2,9 +2,6 @@ import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 plugins {
     id("com.android.application")
@@ -75,46 +72,6 @@ android {
         viewBinding = true
         buildConfig = true
     }
-
-    // Big Up! to cSn: https://stackoverflow.com/a/36626584/2445763
-    configurations.implementation {
-        isCanBeResolved = true
-    }
-
-    configurations.androidTestImplementation {
-        isCanBeResolved = true
-    }
-
-//    project.gradle.addBuildListener(object : BuildListener {
-//        override fun buildStarted(gradle: Gradle) {}
-//
-//        override fun settingsEvaluated(settings: Settings) {}
-//
-//        override fun projectsLoaded(gradle: Gradle) {}
-//
-//        override fun projectsEvaluated(gradle: Gradle) {}
-//
-//        override fun buildFinished(result: BuildResult) {
-//            var str = "# auto-generated; this file should be checked into version control\n"
-//            val resolvedImplementationConfig = configurations.implementation.get().resolvedConfiguration
-//            val resolvedAndroidTestImplementationConfig = configurations.androidTestImplementation.get().resolvedConfiguration
-//            val fileName = "deps.list.txt"
-//            val depsFile = File(projectDir, fileName)
-//
-//            resolvedImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
-//                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
-//            }
-//
-//            resolvedAndroidTestImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
-//                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
-//            }
-//
-//           GlobalScope.launch(Dispatchers.IO) {
-//               depsFile.writeText(str)
-//               println("\n${fileName} created.\n")
-//           }
-//        }
-//    })
 }
 
 dependencies {
@@ -135,7 +92,6 @@ dependencies {
 
     // Room dependencies
     implementation("androidx.room:room-runtime:2.6.1")
-    annotationProcessor("androidx.room:room-compiler:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
 
     // GSON
@@ -164,6 +120,25 @@ dependencies {
     implementation("com.vdurmont:semver4j:3.1.0")
     implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
     implementation("com.github.kittinunf.fuel:fuel:2.2.3")
+}
+
+tasks.register("dependenciesExport") {
+    doLast {
+        val dependencyList = arrayOf(
+            project.configurations.implementation,
+            project.configurations.testImplementation,
+            project.configurations.androidTestImplementation,
+            project.configurations.ksp
+        ).flatMap {
+            it.get().dependencies
+        }.map {
+            "${it.group}:${it.name}:${it.version}"
+        }.joinToString("\n")
+
+        val outputFile = File(layout.projectDirectory.asFile, "deps.list.txt")
+        outputFile.writeText("# Auto-generated, do not touch\n$dependencyList")
+        println("Dependencies written to: ${outputFile.absolutePath}")
+    }
 }
 
 // Git is needed in your system PATH for these commands to work.

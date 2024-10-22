@@ -15,11 +15,11 @@ plugins {
 
 android {
     namespace = "name.lmj0011.jetpackreleasetracker"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "name.lmj0011.jetpackreleasetracker"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 48
         versionName = "1.4.2"
 

@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.topAppBar)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val navView: BottomNavigationView = binding.navView
 
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         val dialogBinding = DialogAboutBinding.inflate(LayoutInflater.from(this), null, false)
 
-        dialogBinding.versionTextView.text = "version: ${BuildConfig.VERSION_NAME}"
+        dialogBinding.versionTextView.text = BuildConfig.VERSION_NAME
         Linkify.addLinks(dialogBinding.gitHubRepoLinkTextView, Linkify.ALL)
         dialogBinding.gitHubRepoLinkTextView.movementMethod = LinkMovementMethod.getInstance()
 

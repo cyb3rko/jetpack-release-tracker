@@ -53,7 +53,7 @@ class LibraryRefreshWorker (private val appContext: Context, parameters: WorkerP
             .build()
 
         val foregroundInfo = ForegroundInfo(NotificationHelper.UPDATES_NOTIFICATION_ID, foregroundNotification)
-        setForeground(foregroundInfo)
+        //setForeground(foregroundInfo)
 
         val artifactsToInsert = mutableListOf<AndroidXArtifact>()
         val artifactsToUpdate = mutableListOf<AndroidXArtifact>()

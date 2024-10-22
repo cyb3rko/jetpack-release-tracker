@@ -11,8 +11,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-    //id("com.google.gms.google-services")
-    //id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -167,12 +165,6 @@ dependencies {
 
     // https://developer.android.com/studio/write/java8-support?utm_source=android-studio-4-0&utm_medium=studio-assistant-stable#library-desugaring
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
-
-    // add the Firebase SDK for Google Analytics
-    //implementation(platform("com.google.firebase:firebase-bom:33.5.0")) // ref: https://firebase.google.com/docs/android/learn-more#bom
-    //implementation("com.google.firebase:firebase-analytics-ktx")
-    //implementation("com.google.firebase:firebase-crashlytics")
-
 
     // other 3rd party libs
     implementation("com.jakewharton.timber:timber:4.7.1")

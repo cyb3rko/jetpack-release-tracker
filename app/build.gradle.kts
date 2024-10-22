@@ -9,22 +9,20 @@ import kotlinx.coroutines.launch
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    //id("com.google.gms.google-services")
+    //id("com.google.firebase.crashlytics")
 }
 
 android {
-    compileSdkVersion(30)
-    buildToolsVersion("29.0.3")
-
+    namespace = "name.lmj0011.jetpackreleasetracker"
+    compileSdk = 34
     defaultConfig {
         applicationId = "name.lmj0011.jetpackreleasetracker"
-        minSdkVersion(19)
-        targetSdkVersion(30)
-        versionCode(getCommitCount().toInt())
+        minSdk = 21
+        targetSdk = 34
+        versionCode = 48
         versionName = "1.4.2"
 
         vectorDrawables {
@@ -56,8 +54,8 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
             isDebuggable = true
-            versionNameSuffix("+debug.${getGitSha().take(8)}")
-            applicationIdSuffix(".debug")
+            versionNameSuffix = "+debug.${getGitSha().take(8)}"
+            applicationIdSuffix = ".debug"
             resValue("bool", "DEBUG_MODE", "true")
             setProguardFiles(listOf(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"))
         }
@@ -74,12 +72,12 @@ android {
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     buildFeatures {
@@ -96,36 +94,36 @@ android {
         isCanBeResolved = true
     }
 
-    project.gradle.addBuildListener(object : BuildListener {
-        override fun buildStarted(gradle: Gradle) {}
-
-        override fun settingsEvaluated(settings: Settings) {}
-
-        override fun projectsLoaded(gradle: Gradle) {}
-
-        override fun projectsEvaluated(gradle: Gradle) {}
-
-        override fun buildFinished(result: BuildResult) {
-            var str = "# auto-generated; this file should be checked into version control\n"
-            val resolvedImplementationConfig = configurations.implementation.get().resolvedConfiguration
-            val resolvedAndroidTestImplementationConfig = configurations.androidTestImplementation.get().resolvedConfiguration
-            val fileName = "deps.list.txt"
-            val depsFile = File(projectDir, fileName)
-
-            resolvedImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
-                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
-            }
-
-            resolvedAndroidTestImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
-                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
-            }
-
-           GlobalScope.launch(Dispatchers.IO) {
-               depsFile.writeText(str)
-               println("\n${fileName} created.\n")
-           }
-        }
-    })
+//    project.gradle.addBuildListener(object : BuildListener {
+//        override fun buildStarted(gradle: Gradle) {}
+//
+//        override fun settingsEvaluated(settings: Settings) {}
+//
+//        override fun projectsLoaded(gradle: Gradle) {}
+//
+//        override fun projectsEvaluated(gradle: Gradle) {}
+//
+//        override fun buildFinished(result: BuildResult) {
+//            var str = "# auto-generated; this file should be checked into version control\n"
+//            val resolvedImplementationConfig = configurations.implementation.get().resolvedConfiguration
+//            val resolvedAndroidTestImplementationConfig = configurations.androidTestImplementation.get().resolvedConfiguration
+//            val fileName = "deps.list.txt"
+//            val depsFile = File(projectDir, fileName)
+//
+//            resolvedImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
+//                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
+//            }
+//
+//            resolvedAndroidTestImplementationConfig.firstLevelModuleDependencies.forEach { dep ->
+//                str += "${dep.moduleGroup}:${dep.moduleName}:${dep.moduleVersion}\n"
+//            }
+//
+//           GlobalScope.launch(Dispatchers.IO) {
+//               depsFile.writeText(str)
+//               println("\n${fileName} created.\n")
+//           }
+//        }
+//    })
 }
 
 dependencies {
@@ -133,58 +131,57 @@ dependencies {
     fTree.include("*.jar")
 
     implementation(fTree)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${findProperty("kotlin.version")}")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
-    implementation("com.google.android.material:material:1.3.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.1")
-    implementation("androidx.vectordrawable:vectordrawable:1.1.0")
-    implementation("androidx.navigation:navigation-fragment:${findProperty("fragment.version")}")
-    implementation("androidx.navigation:navigation-fragment-ktx:${findProperty("fragment.version")}")
-    implementation("androidx.navigation:navigation-ui:${findProperty("nav.version")}")
-    implementation("androidx.navigation:navigation-ui-ktx:${findProperty("nav.version")}")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.vectordrawable:vectordrawable:1.2.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.8.3")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    testImplementation("junit:junit:4.13")
-    androidTestImplementation("androidx.test.ext:junit:1.1.2")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 
     // Room dependencies
-    implementation("androidx.room:room-runtime:${findProperty("room.version")}")
-    annotationProcessor("androidx.room:room-compiler:${findProperty("room.version")}")
-    kapt("androidx.room:room-compiler:${findProperty("room.version")}")
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     // GSON
-    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.code.gson:gson:2.11.0")
 
     // Lifecycle-aware components
     // ref: https://developer.android.com/jetpack/androidx/releases/lifecycle
-    implementation("androidx.lifecycle:lifecycle-extensions:${findProperty("lifecycle.version")}")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${findProperty("coroutine.version")}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${findProperty("coroutine.version")}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
     // androidx.preference
-    implementation("androidx.preference:preference-ktx:1.1.1")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 
     // WorkManager
-    val workVersion = "2.4.0"
+    val workVersion = "2.9.1"
     implementation("androidx.work:work-runtime-ktx:$workVersion")
 
     // https://developer.android.com/studio/write/java8-support?utm_source=android-studio-4-0&utm_medium=studio-assistant-stable#library-desugaring
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.0.10")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
 
     // add the Firebase SDK for Google Analytics
-    implementation(platform("com.google.firebase:firebase-bom:26.0.0")) // ref: https://firebase.google.com/docs/android/learn-more#bom
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-crashlytics")
+    //implementation(platform("com.google.firebase:firebase-bom:33.5.0")) // ref: https://firebase.google.com/docs/android/learn-more#bom
+    //implementation("com.google.firebase:firebase-analytics-ktx")
+    //implementation("com.google.firebase:firebase-crashlytics")
 
 
     // other 3rd party libs
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.vdurmont:semver4j:3.1.0")
-    implementation("br.com.simplepass:loading-button-android:2.2.0")
+    implementation("com.github.leandroborgesferreira:loading-button-android:2.3.0")
     implementation("com.github.kittinunf.fuel:fuel:2.2.3")
 }
 

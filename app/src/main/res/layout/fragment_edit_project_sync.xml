@@ -17,7 +17,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/editProjectDeleteCircularProgressButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        <com.github.leandroborgesferreira.loadingbutton.customViews.CircularProgressButton
             android:id="@+id/editProjectSaveCircularProgressButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

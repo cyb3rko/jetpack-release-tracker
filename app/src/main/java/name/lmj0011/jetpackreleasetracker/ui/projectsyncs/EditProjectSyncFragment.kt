@@ -46,11 +46,11 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
     private fun setupBinding(view: View) {
         binding = FragmentEditProjectSyncBinding.bind(view)
         binding.lifecycleOwner = this
-        binding.editProjectSaveCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
+        //binding.editProjectSaveCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
     }
 
     private fun setupAlertDialog() {
-        binding.editProjectDeleteCircularProgressButton.setOnClickListener { _ ->
+        /*binding.editProjectDeleteCircularProgressButton.setOnClickListener { _ ->
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Delete this project?")
                 .setPositiveButton("Yes") { _, _ ->
@@ -59,7 +59,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
                 }
                 .setNegativeButton("No") { _, _ -> }
                 .show()
-        }
+        }*/
     }
 
     private fun setupObservers() {
@@ -78,7 +78,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
         projectSyncsViewModel.projectSync.observe(viewLifecycleOwner, Observer {
             project = it
             injectProjectIntoView(it)
-            binding.editProjectSaveCircularProgressButton.stopAnimation()
+            //binding.editProjectSaveCircularProgressButton.stopAnimation()
         })
 
         projectSyncsViewModel.projectDepsMap.observe(viewLifecycleOwner, Observer {
@@ -161,7 +161,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
             projectSyncsViewModel.updateProjectSync(it)
         }
 
-        binding.editProjectSaveCircularProgressButton.startAnimation()
-        (requireActivity() as MainActivity).hideKeyBoard(binding.editProjectSaveCircularProgressButton)
+        //binding.editProjectSaveCircularProgressButton.startAnimation()
+        //(requireActivity() as MainActivity).hideKeyBoard(binding.editProjectSaveCircularProgressButton)
     }
 }

@@ -20,7 +20,6 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.NavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.android.synthetic.main.dialog_about.view.*
 import name.lmj0011.jetpackreleasetracker.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -91,12 +90,12 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         val v = LayoutInflater.from(this).inflate(R.layout.dialog_about, null)
 
-        v.versionTextView.text = "version: ${BuildConfig.VERSION_NAME}"
-        Linkify.addLinks(v.gitHubRepoLinkTextView, Linkify.ALL)
-        v.gitHubRepoLinkTextView.movementMethod = LinkMovementMethod.getInstance()
-
-        Linkify.addLinks(v.gitHubChangelogLinkTextView, Linkify.ALL)
-        v.gitHubChangelogLinkTextView.movementMethod = LinkMovementMethod.getInstance()
+//        binding.versionTextView.text = "version: ${BuildConfig.VERSION_NAME}"
+//        Linkify.addLinks(binding.gitHubRepoLinkTextView, Linkify.ALL)
+//        binding.gitHubRepoLinkTextView.movementMethod = LinkMovementMethod.getInstance()
+//
+//        Linkify.addLinks(binding.gitHubChangelogLinkTextView, Linkify.ALL)
+//        binding.gitHubChangelogLinkTextView.movementMethod = LinkMovementMethod.getInstance()
 
 
         return when (item.itemId) {

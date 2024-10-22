@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import br.com.simplepass.loadingbutton.presentation.State
+import com.github.leandroborgesferreira.loadingbutton.presentation.State
 import name.lmj0011.jetpackreleasetracker.MainActivity
 import name.lmj0011.jetpackreleasetracker.R
 import name.lmj0011.jetpackreleasetracker.database.AppDatabase
@@ -43,25 +43,25 @@ class CreateProjectSyncFragment : Fragment(R.layout.fragment_create_project_sync
     private fun setupBinding(view: View) {
         binding = FragmentCreateProjectSyncBinding.bind(view)
         binding.lifecycleOwner = this
-        binding.createProjectSyncCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
+        //binding.createProjectSyncCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
     }
 
     private fun setupObservers() {
         projectSyncsViewModel.errorMessages.observe(viewLifecycleOwner, Observer {
-            binding.createProjectSyncCircularProgressButton.revertAnimation()
-            binding.createProjectSyncCircularProgressButton.isEnabled = true
+            //binding.createProjectSyncCircularProgressButton.revertAnimation()
+            //binding.createProjectSyncCircularProgressButton.isEnabled = true
             (requireActivity() as MainActivity).showToastMessage(it)
         })
 
         projectSyncsViewModel.projectSyncs.observe(viewLifecycleOwner, Observer {
-            val btnState = binding.createProjectSyncCircularProgressButton.getState()
+            //val btnState = binding.createProjectSyncCircularProgressButton.getState()
 
             // revert button animation and navigate back to Trips
-            if (btnState == State.MORPHING || btnState == State.PROGRESS) {
-                binding.createProjectSyncCircularProgressButton.revertAnimation()
-                binding.createProjectSyncCircularProgressButton.isEnabled = true
-                this.findNavController().navigate(R.id.navigation_project_syncs)
-            }
+            //if (btnState == State.MORPHING || btnState == State.PROGRESS) {
+                //binding.createProjectSyncCircularProgressButton.revertAnimation()
+                //binding.createProjectSyncCircularProgressButton.isEnabled = true
+            //    this.findNavController().navigate(R.id.navigation_project_syncs)
+            //}
         })
     }
 
@@ -84,8 +84,8 @@ class CreateProjectSyncFragment : Fragment(R.layout.fragment_create_project_sync
 
         projectSyncsViewModel.insertProjectSync(projectName, projectDepListUrl)
 
-        binding.createProjectSyncCircularProgressButton.isEnabled = false
-        binding.createProjectSyncCircularProgressButton.startAnimation()
+        //binding.createProjectSyncCircularProgressButton.isEnabled = false
+        //binding.createProjectSyncCircularProgressButton.startAnimation()
 
     }
 }

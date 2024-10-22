@@ -35,7 +35,8 @@ class LibraryRefreshWorker (private val appContext: Context, parameters: WorkerP
             putExtra(appContext.getString(R.string.intent_extra_key_worker_tags), tagArray)
         }
 
-        notificationCancelWorkerPendingIntent = PendingIntent.getBroadcast(appContext, 0, notificationCancelWorkerIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        notificationCancelWorkerPendingIntent = PendingIntent.getBroadcast(appContext, 0, notificationCancelWorkerIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
     }
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
@@ -137,7 +138,8 @@ class LibraryRefreshWorker (private val appContext: Context, parameters: WorkerP
 
                         val notificationContentIntent = Intent(Intent.ACTION_VIEW, Uri.parse(artifact?.releasePageUrl))
 
-                        val contentPendingIntent = PendingIntent.getActivity(appContext, 0, notificationContentIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+                        val contentPendingIntent = PendingIntent.getActivity(appContext, 0, notificationContentIntent,
+                            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
 
                         val notification = NotificationCompat.Builder(appContext, NotificationHelper.NEW_LIBRARY_VERSIONS_CHANNEL_ID)
                             .setContentIntent(contentPendingIntent)

@@ -19,9 +19,12 @@ import name.lmj0011.jetpackreleasetracker.helpers.adapters.AndroidXArtifactUpdat
 import name.lmj0011.jetpackreleasetracker.helpers.factories.DashBoardViewModelFactory
 import name.lmj0011.jetpackreleasetracker.helpers.interfaces.SearchableRecyclerView
 
-class UpdatesFragment : Fragment(R.layout.fragment_updates), SearchableRecyclerView {
+class UpdatesFragment : Fragment(), SearchableRecyclerView {
 
-    private lateinit var binding: FragmentUpdatesBinding
+    private var _binding: FragmentUpdatesBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
     private val updatesViewModel by viewModels<UpdatesViewModel> {
         DashBoardViewModelFactory(
             AppDatabase.getInstance(requireActivity().application).androidXArtifactUpdateDao,
@@ -35,24 +38,31 @@ class UpdatesFragment : Fragment(R.layout.fragment_updates), SearchableRecyclerV
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentUpdatesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBinding(view)
+        setupBinding()
         setupAdapter()
         setupObservers()
         setupSearchView()
     }
 
-    private fun setupBinding(view: View) {
-        binding = FragmentUpdatesBinding.bind(view)
+    private fun setupBinding() {
         binding.androidXArtifactUpdateList.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
                 DividerItemDecoration.VERTICAL
             )
         )
-        binding.dashboardViewModel = updatesViewModel
-        binding.lifecycleOwner = this
     }
 
     private fun setupAdapter() {

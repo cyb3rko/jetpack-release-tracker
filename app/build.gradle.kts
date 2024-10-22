@@ -82,7 +82,7 @@ android {
 
     buildFeatures {
         viewBinding = true
-        dataBinding = true
+        buildConfig = true
     }
 
     // Big Up! to cSn: https://stackoverflow.com/a/36626584/2445763

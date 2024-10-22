@@ -15,10 +15,10 @@ class ProjectSyncListAdapter(private val clickListener: ProjectSyncListener):
 
     class ViewHolder private constructor(val binding: ListItemProjectSyncBinding, val context: Context) : RecyclerView.ViewHolder(binding.root){
         fun bind(clickListener: ProjectSyncListener, projectSync: ProjectSync) {
-            binding.projectSync = projectSync
-            binding.clickListener = clickListener
-
             binding.projectNameTextView.text = projectSync.name
+            binding.listItemProjectSyncConstraintLayout.setOnClickListener {
+                clickListener.onClick(projectSync)
+            }
 
             when {
                 // all deps are up to date
@@ -39,8 +39,6 @@ class ProjectSyncListAdapter(private val clickListener: ProjectSyncListener):
                     binding.syncStatusTextView.text = context.getString(R.string.project_sync_no_dependencies)
                 }
             }
-
-            binding.executePendingBindings()
         }
 
         companion object {

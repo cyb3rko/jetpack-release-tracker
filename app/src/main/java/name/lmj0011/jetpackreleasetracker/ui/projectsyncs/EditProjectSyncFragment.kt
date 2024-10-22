@@ -20,9 +20,12 @@ import name.lmj0011.jetpackreleasetracker.database.ProjectSync
 import name.lmj0011.jetpackreleasetracker.databinding.FragmentEditProjectSyncBinding
 import name.lmj0011.jetpackreleasetracker.helpers.factories.ProjectSyncViewModelFactory
 
-class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
+class EditProjectSyncFragment : Fragment() {
 
-    private lateinit var binding: FragmentEditProjectSyncBinding
+    private var _binding: FragmentEditProjectSyncBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
     private val projectSyncsViewModel by viewModels<ProjectSyncsViewModel> {
         ProjectSyncViewModelFactory(
             AppDatabase.getInstance(requireActivity().application).projectSyncDao,
@@ -36,21 +39,29 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentEditProjectSyncBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBinding(view)
+        setupBinding()
         setupAlertDialog()
         setupObservers()
     }
 
-    private fun setupBinding(view: View) {
-        binding = FragmentEditProjectSyncBinding.bind(view)
-        binding.lifecycleOwner = this
-        //binding.editProjectSaveCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
+    private fun setupBinding() {
+        binding.editProjectSaveCircularProgressButton.setOnClickListener(this::saveButtonOnClickListener)
     }
 
     private fun setupAlertDialog() {
-        /*binding.editProjectDeleteCircularProgressButton.setOnClickListener { _ ->
+        binding.editProjectDeleteCircularProgressButton.setOnClickListener { _ ->
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Delete this project?")
                 .setPositiveButton("Yes") { _, _ ->
@@ -59,7 +70,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
                 }
                 .setNegativeButton("No") { _, _ -> }
                 .show()
-        }*/
+        }
     }
 
     private fun setupObservers() {
@@ -78,7 +89,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
         projectSyncsViewModel.projectSync.observe(viewLifecycleOwner, Observer {
             project = it
             injectProjectIntoView(it)
-            //binding.editProjectSaveCircularProgressButton.stopAnimation()
+            binding.editProjectSaveCircularProgressButton.stopAnimation()
         })
 
         projectSyncsViewModel.projectDepsMap.observe(viewLifecycleOwner, Observer {
@@ -161,7 +172,7 @@ class EditProjectSyncFragment : Fragment(R.layout.fragment_edit_project_sync) {
             projectSyncsViewModel.updateProjectSync(it)
         }
 
-        //binding.editProjectSaveCircularProgressButton.startAnimation()
-        //(requireActivity() as MainActivity).hideKeyBoard(binding.editProjectSaveCircularProgressButton)
+        binding.editProjectSaveCircularProgressButton.startAnimation()
+        (requireActivity() as MainActivity).hideKeyBoard(binding.editProjectSaveCircularProgressButton)
     }
 }

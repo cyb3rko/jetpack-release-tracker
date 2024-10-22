@@ -25,11 +25,13 @@ import name.lmj0011.jetpackreleasetracker.helpers.factories.ProjectSyncViewModel
 import name.lmj0011.jetpackreleasetracker.helpers.interfaces.SearchableRecyclerView
 import name.lmj0011.jetpackreleasetracker.helpers.workers.ProjectSyncAllWorker
 import name.lmj0011.jetpackreleasetracker.helpers.workers.ProjectSyncAllWorker.Companion.Progress
-import timber.log.Timber
 
 class ProjectSyncsFragment : Fragment(R.layout.fragment_project_syncs), SearchableRecyclerView {
 
-    private lateinit var binding: FragmentProjectSyncsBinding
+    private var _binding: FragmentProjectSyncsBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
     private val projectSyncsViewModel by viewModels<ProjectSyncsViewModel> {
         ProjectSyncViewModelFactory(
             AppDatabase.getInstance(requireActivity().application).projectSyncDao,
@@ -38,9 +40,19 @@ class ProjectSyncsFragment : Fragment(R.layout.fragment_project_syncs), Searchab
     }
     private lateinit var listAdapter: ProjectSyncListAdapter
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentProjectSyncsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBinding(view)
+        setupBinding()
         setupAdapter()
         setupObservers()
         setupSearchView()
@@ -48,16 +60,13 @@ class ProjectSyncsFragment : Fragment(R.layout.fragment_project_syncs), Searchab
         setupFabWithListener()
     }
 
-    private fun setupBinding(view: View) {
-        binding = FragmentProjectSyncsBinding.bind(view)
+    private fun setupBinding() {
         binding.projectSyncList.addItemDecoration(
             DividerItemDecoration(
                 requireActivity(),
                 DividerItemDecoration.VERTICAL
             )
         )
-        binding.projectSyncsViewModel = projectSyncsViewModel
-        binding.lifecycleOwner = this
         binding.learnMoreButton.setOnClickListener {
             Util.openUrlInWebBrowser(
                 requireActivity() as MainActivity,
@@ -136,7 +145,7 @@ class ProjectSyncsFragment : Fragment(R.layout.fragment_project_syncs), Searchab
                 .addTag(requireContext().getString(R.string.project_sync_all_one_time_worker_tag))
                 .build()
 
-            //progress_indicator.visibility = View.VISIBLE
+            binding.progressIndicator.visibility = View.VISIBLE
 
             WorkManager.getInstance(requireActivity().application)
                 .getWorkInfoByIdLiveData(projectSyncAllWorkRequest.id)
@@ -144,18 +153,18 @@ class ProjectSyncsFragment : Fragment(R.layout.fragment_project_syncs), Searchab
                     if (workInfo != null) {
                         val progress = workInfo.progress
                         val value = progress.getInt(Progress, 0)
-                        //progress_indicator.progress = value
+                        binding.progressIndicator.progress = value
 
                         /**
                          * start in indeterminate mode until ~20% complete,
                          * to give an immediate visual que of work being done
                          */
-                        //if (value >= 20) progress_indicator.isIndeterminate = false
+                        if (value >= 20) binding.progressIndicator.isIndeterminate = false
 
                         if (value >= 100) {
                             projectSyncsViewModel.refreshProjectSyncs()
-                            //progress_indicator.visibility = View.GONE
-                            //progress_indicator.isIndeterminate = true
+                            binding.progressIndicator.visibility = View.GONE
+                            binding.progressIndicator.isIndeterminate = true
                         }
                     }
                 })

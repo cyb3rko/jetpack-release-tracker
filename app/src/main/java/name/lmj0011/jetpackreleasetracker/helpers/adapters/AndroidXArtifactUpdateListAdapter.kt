@@ -27,8 +27,6 @@ class AndroidXArtifactUpdateListAdapter(private val clickListener: AndroidXArtif
 
             // can't modify the original set ref: https://stackoverflow.com/a/51001329/2445763
             val starredSet = (spf.getStringSet(context.getString(R.string.pref_key_starred_libraries), mutableSetOf<String>()) as MutableSet<String>).toMutableSet()
-            binding.update = update
-            binding.clickListener = clickListener
 
             val updateCreatedAtDate = dateFormatter(LocalDateTime.parse(update.createdAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME))
             if (todayDate == updateCreatedAtDate) {
@@ -48,7 +46,9 @@ class AndroidXArtifactUpdateListAdapter(private val clickListener: AndroidXArtif
                 binding.starImageView.visibility = View.GONE
             }
 
-            binding.executePendingBindings()
+            binding.listItemAndroidXUpdateConstraintLayout.setOnClickListener {
+                clickListener.onClick(update)
+            }
         }
 
         companion object {

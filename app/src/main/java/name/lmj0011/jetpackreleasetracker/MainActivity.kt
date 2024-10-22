@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -21,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import name.lmj0011.jetpackreleasetracker.databinding.ActivityMainBinding
+import name.lmj0011.jetpackreleasetracker.databinding.DialogAboutBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,9 +31,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val navView: BottomNavigationView = binding.navView
 
         navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -88,14 +89,14 @@ class MainActivity : AppCompatActivity() {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val v = LayoutInflater.from(this).inflate(R.layout.dialog_about, null)
+        val dialogBinding = DialogAboutBinding.inflate(LayoutInflater.from(this), null, false)
 
-//        binding.versionTextView.text = "version: ${BuildConfig.VERSION_NAME}"
-//        Linkify.addLinks(binding.gitHubRepoLinkTextView, Linkify.ALL)
-//        binding.gitHubRepoLinkTextView.movementMethod = LinkMovementMethod.getInstance()
-//
-//        Linkify.addLinks(binding.gitHubChangelogLinkTextView, Linkify.ALL)
-//        binding.gitHubChangelogLinkTextView.movementMethod = LinkMovementMethod.getInstance()
+        dialogBinding.versionTextView.text = "version: ${BuildConfig.VERSION_NAME}"
+        Linkify.addLinks(dialogBinding.gitHubRepoLinkTextView, Linkify.ALL)
+        dialogBinding.gitHubRepoLinkTextView.movementMethod = LinkMovementMethod.getInstance()
+
+        Linkify.addLinks(dialogBinding.gitHubChangelogLinkTextView, Linkify.ALL)
+        dialogBinding.gitHubChangelogLinkTextView.movementMethod = LinkMovementMethod.getInstance()
 
 
         return when (item.itemId) {
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_main_about -> {
                 MaterialAlertDialogBuilder(this)
-                    .setView(v)
+                    .setView(dialogBinding.root)
                     .show()
                 true
             }

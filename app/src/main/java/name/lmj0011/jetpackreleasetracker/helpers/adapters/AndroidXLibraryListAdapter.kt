@@ -34,8 +34,9 @@ class AndroidXLibraryListAdapter(
 
         fun bind(clickListener: AndroidXLibraryListener, starClickListener: AndroidXLibraryStarListener, library: AndroidXLibrary, artifacts: List<AndroidXArtifact>) {
             binding.packageNameTextView.text = library.packageName
-            binding.library = library
-            binding.starClickListener = starClickListener
+            binding.starImageView.setOnClickListener {
+                starClickListener.onClick(library)
+            }
 
             val starredSet = getStarredSet(context).toMutableSet()
             val parentLayout = binding.listItemLibraryConstraintLayout
@@ -72,8 +73,6 @@ class AndroidXLibraryListAdapter(
                 attachToViewForLatestRelease = latestVersionTextView
                 dynamicallyAddedViews.add(latestVersionTextView)
             }
-
-            binding.executePendingBindings()
         }
 
         private fun addArtifactToView(view: TextView, attachToView: TextView, parentLayout: ConstraintLayout, binding: ListItemLibraryBinding, artifact: AndroidXArtifact?) {

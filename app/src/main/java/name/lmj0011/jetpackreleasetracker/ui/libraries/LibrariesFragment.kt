@@ -26,9 +26,12 @@ import name.lmj0011.jetpackreleasetracker.helpers.interfaces.SearchableRecyclerV
 import name.lmj0011.jetpackreleasetracker.helpers.workers.LibraryRefreshWorker
 import name.lmj0011.jetpackreleasetracker.helpers.workers.ProjectSyncAllWorker
 
-class LibrariesFragment : Fragment(R.layout.fragment_libraries), SearchableRecyclerView {
+class LibrariesFragment : Fragment(), SearchableRecyclerView {
 
-    private lateinit var binding: FragmentLibrariesBinding
+    private var _binding: FragmentLibrariesBinding? = null
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
+
     private lateinit var sharedPreferences: SharedPreferences
     private val librariesViewModel by viewModels<LibrariesViewModel> {
         LibrariesViewModelFactory(
@@ -45,9 +48,19 @@ class LibrariesFragment : Fragment(R.layout.fragment_libraries), SearchableRecyc
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        _binding = FragmentLibrariesBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBinding(view)
+        setupBinding()
         setupAdapter()
         setupRecyclerView()
         setupSearchView()
@@ -56,10 +69,7 @@ class LibrariesFragment : Fragment(R.layout.fragment_libraries), SearchableRecyc
         setupSwipeToRefresh()
     }
 
-    private fun setupBinding(view: View) {
-        binding = FragmentLibrariesBinding.bind(view)
-        binding.lifecycleOwner = this
-        binding.homeViewModel = librariesViewModel
+    private fun setupBinding() {
         binding.fetchLibrariesButton.setOnClickListener {
             enqueueNewLibraryRefreshWorkerRequest()
             (requireActivity() as MainActivity).showToastMessage(requireContext().getString(R.string.toast_message_fetching_libraries))
@@ -153,6 +163,9 @@ class LibrariesFragment : Fragment(R.layout.fragment_libraries), SearchableRecyc
             listAdapter.submitLibArtifacts(it.toList())
             refreshListAdapter()
         })
+        binding.testButton.setOnClickListener {
+            librariesViewModel.testAllNewerVersion()
+        }
     }
 
     private fun checkForTestMode() {

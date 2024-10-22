@@ -10,11 +10,11 @@ class LibrariesViewModelFactory(
     private val dataSource: AndroidXArtifactDao,
     private val application: Application
 ) : ViewModelProvider.Factory {
-//    @Suppress("unchecked_cast")
-//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-//        if (modelClass.isAssignableFrom(LibrariesViewModel::class.java)) {
-//            return LibrariesViewModel(dataSource, application) as T
-//        }
-//        throw IllegalArgumentException("Unknown ViewModel class")
-//    }
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(LibrariesViewModel::class.java)) {
+            return LibrariesViewModel(dataSource, application) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }
